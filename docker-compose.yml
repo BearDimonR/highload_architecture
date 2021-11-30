@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+    ports:
+      - "3306:3306"
+    expose:
+      - 3306
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  redis:
+    image: redis:6-alpine
+    ports:
+      - 6379:6379
+    expose:
+      - 6379
+
+  read:
+    build: ./read_service
+    ports:
+      - 5002:5000
+    command: sh -c "./wait-for-it.sh db:5432 -t 20 -- python manage.py run -h 0.0.0.0"
+    volumes:
+      - ./read_service:/usr/src/app
+    env_file: .env
+    depends_on:
+      - redis
+      - db
+
+  write:
+    build: ./write_service
+    ports:
+      - 5001:5000
+    command: sh -c "./wait-for-it.sh db:5432 -t 20 -- python manage.py run -h 0.0.0.0"
+    volumes:
+      - ./write_service:/usr/src/app
+    env_file: .env
+    depends_on:
+      - redis
+      - db
+
+  worker:
+    build: ./write_service
+    command: sh -c "./wait-for-it.sh db:5432 -t 20 -- python manage.py run_worker"
+    volumes:
+      - ./write_service:/usr/src/app
+    env_file: .env
+    depends_on:
+      - redis
+      - db
