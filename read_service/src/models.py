@@ -9,7 +9,7 @@ class Book(db.Model):
     __tablename__ = 'book'
 
     id = db.Column(BinaryUUID, primary_key=True, default=uuid.uuid4)
-    isnb = db.Column(db.String(13))
+    isbn = db.Column(db.String(13))
     book_title = db.Column(db.String(50))
     category_name = db.Column(db.String(30))
     date_of_publication = db.Column(db.DATE)

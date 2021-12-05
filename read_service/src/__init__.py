@@ -6,6 +6,7 @@ import config
 
 def create_app():
     flask_app = Flask(__name__)
+    print(config.DATABASE_CONNECTION_URI)
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = config.DATABASE_CONNECTION_URI
     flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     flask_app.config['CACHE_TYPE'] = config.CACHE_TYPE

@@ -20,5 +20,6 @@ def get(book_id):
 
 @controller.route('/get', methods=['GET'])
 def get_all():
-    result = map(get_all_instances(Book), lambda val: val.as_dict())
-    return result, 200
+    result = list(map(lambda val: val.as_dict(), get_all_instances(Book)))
+    print(result)
+    return jsonify(result), 200

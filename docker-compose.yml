@@ -23,7 +23,7 @@ services:
     build: ./read_service
     ports:
       - 5002:5000
-    command: sh -c "./wait-for-it.sh db:5432 -t 20 -- python manage.py run -h 0.0.0.0"
+    command: sh -c "./wait-for-it.sh db:3306 -t 20 -- python manage.py run -h 0.0.0.0"
     volumes:
       - ./read_service:/usr/src/app
     env_file: .env
@@ -35,7 +35,7 @@ services:
     build: ./write_service
     ports:
       - 5001:5000
-    command: sh -c "./wait-for-it.sh db:5432 -t 20 -- python manage.py run -h 0.0.0.0"
+    command: sh -c "./wait-for-it.sh db:3306 -t 20 -- python manage.py run -h 0.0.0.0"
     volumes:
       - ./write_service:/usr/src/app
     env_file: .env
@@ -45,7 +45,7 @@ services:
 
   worker:
     build: ./write_service
-    command: sh -c "./wait-for-it.sh db:5432 -t 20 -- python manage.py run_worker"
+    command: sh -c "./wait-for-it.sh db:3306 -t 20 -- python manage.py run_worker"
     volumes:
       - ./write_service:/usr/src/app
     env_file: .env

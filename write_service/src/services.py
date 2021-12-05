@@ -10,7 +10,8 @@ def add_instance(model, **kwargs):
 def edit_instance(model, obj_id, **kwargs):
     instance = model.query.filter_by(id=obj_id).all()[0]
     for attr, new_value in kwargs.items():
-        setattr(instance, attr, new_value)
+        if new_value:
+            setattr(instance, attr, new_value)
     commit_changes()
 
 
