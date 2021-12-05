@@ -27,3 +27,5 @@ Just copy `docker compose up --scale worker=3 --scale read=2 --scale write=2`
 ##### Testing
 
 You can use configured postman collection for test purpose.
+
+P.S. Postman sometimes ignore variable assigning, check it if error with request occur.
