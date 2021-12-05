@@ -14,7 +14,10 @@ Lab 4 for Highload Architecture course in NaUKMA
 1. Use `docker compose up` to create instances
 2. Wait for initialization
 3. After it you can access API with `localhost:4000`
-4. Also you can try use `--scale {service_name}={scale_number}` to increase number of containers for some services. Service names: `read, write, worker`
+4. Also you can try use `--scale {service_name}={scale_number}` to increase number of containers for some services. 
+
+Service names: `read, write, worker`
+
 Just copy `docker compose up --scale worker=3 --scale read=2 --scale write=2`
 
 ##### API
