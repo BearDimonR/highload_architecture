@@ -13,7 +13,9 @@ Lab 4 for Highload Architecture course in NaUKMA
 
 1. Use `docker compose up` to create instances
 2. Wait for initialization
-3. After it you can call `localhost:4000`
+3. After it you can access API with `localhost:4000`
+4. Also you can try use `--scale {service_name}={scale_number}` to increase number of containers for some services. Service names: `read, write, worker`
+Just copy `docker compose up --scale worker=3 --scale read=2 --scale write=2`
 
 ##### API
 
@@ -21,7 +23,7 @@ Lab 4 for Highload Architecture course in NaUKMA
 2. `/get/<id>` - returns book by id (with caching)
 3. `/write/add` - create new instance (with queue)
 4. `/write/edit/<id>` - edit instance (with queue)
-
+5. `/write/check_status/<job_id>` - check job status
 ##### Testing
 
 You can use configured postman collection for test purpose.
