@@ -13,13 +13,3 @@ DATABASE_CONNECTION_URI = f'mysql+pymysql://{user}:{password}@{host}:{port}/{dat
 WTF_CSRF_ENABLED = True
 REDIS_URL = os.environ['REDIS_URL']
 QUEUES = os.environ['REDIS_QUEUES'].split(', ')
-
-# user='librarian'
-# password='pass'
-# host='localhost'
-# port='3306'
-# database='library'
-# REDIS_URL='redis://localhost:6379/0'
-# QUEUES='default'
-# DATABASE_CONNECTION_URI = f'mysql+pymysql://{user}:{password}@{host}:{port}/{database}'
-#

@@ -1,6 +1,7 @@
 import redis
 from flask import request, Blueprint, jsonify
 from rq import Connection, Queue
+from rq.job import Job
 
 from src import config
 from src.tasks import create_task, edit_task
@@ -16,7 +17,7 @@ def add():
     response_object = {
         "status": "success",
         "data": {
-            "task_id": task.get_id()
+            "taskId": task.get_id()
         }
     }
     return jsonify(response_object), 202
@@ -24,7 +25,6 @@ def add():
 
 @controller.route('/edit/<book_id>', methods=['PATCH'])
 def edit(book_id):
-    # TODO CHECK IF BOOK EXISTS
     data = request.get_json()
     data['obj_id'] = book_id
     with Connection(redis.from_url(config.REDIS_URL)):
@@ -33,7 +33,16 @@ def edit(book_id):
     response_object = {
         "status": "success",
         "data": {
-            "task_id": task.get_id()
+            "taskId": task.get_id()
         }
     }
     return jsonify(response_object), 202
+
+
+@controller.route("/check_status/<job_id>", methods=['GET'])
+def check_status(job_id):
+    with Connection(redis.from_url(config.REDIS_URL)):
+        job = Job.fetch(job_id)
+    if not job:
+        return 'No such job', 204
+    return jsonify({"job_id": job.id, "job_status": job.get_status()})

@@ -28,8 +28,6 @@ services:
     depends_on:
       - redis
       - db
-    expose:
-      - 5002
 
   write:
     build: ./write_service
@@ -40,8 +38,6 @@ services:
     depends_on:
       - redis
       - db
-    expose:
-      - 5001
 
   worker:
     build: ./write_service
@@ -52,8 +48,6 @@ services:
     depends_on:
       - redis
       - db
-    expose:
-      - 5003
 
   nginx:
     image: nginx:latest
