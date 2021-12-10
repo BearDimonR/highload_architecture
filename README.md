@@ -40,3 +40,18 @@ Just copy `docker compose up --scale worker=3 --scale read=2 --scale write=2`
 You can use configured postman collection for test purpose.
 
 P.S. Postman sometimes ignore variable assigning, check it if error with request occur.
+
+ #### Lab 5
+
+ ###### Task
+
+ Create a CI using simple GitHub Flow around your previous project (API for managing books):
+
+ 1. Use docker as a build environment within GitHub Actions
+ Stages: build, test (pls write some tests for your app please, at least 2)
+ 2. Apply actions automaticaly on merge in master (main) branch from your feature branch
+ 3. Use GitHub flow
+
+ ###### Exstra Task
+
+ Create CD (Continuos Delivery) job based on GitHub Actions, whitch will deploy your app to your AWS infrastructure (+10 points to your score)
