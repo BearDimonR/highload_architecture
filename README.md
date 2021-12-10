@@ -18,6 +18,7 @@ Lab 4 for Highload Architecture course in NaUKMA
 
 ###### How to use?
 
+1. Rename `.env.example` to `.env`
 1. Use `docker compose up` to create instances
 2. Wait for initialization
 3. After it you can access API with `localhost:4000`
