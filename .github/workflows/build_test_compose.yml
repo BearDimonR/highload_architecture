@@ -22,13 +22,13 @@ jobs:
       with:
         node-version: 14.x
 
-    - run: cd tests
-
     - name: Install tests dependencies
       run: npm i
+      working-directory: ./tests
 
     - name: Run tests
       run: npm run test
+      working-directory: ./tests
 
     - name: Stop containers
       if: always()
