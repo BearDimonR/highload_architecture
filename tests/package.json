@@ -1,0 +1,16 @@
+{
+  "name": "api_tester",
+  "version": "1.0.0",
+  "description": "Simple node application for API testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha index.js --exit"
+  },
+  "author": "Dmytro Miedviediev",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^9.1.3",
+    "request": "^2.88.2"
+  }
+}
