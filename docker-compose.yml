@@ -24,7 +24,15 @@ services:
     command: sh -c "./wait-for-it.sh db:3306 -t 20 -- python manage.py run -h 0.0.0.0"
     volumes:
       - ./read_service:/usr/src/app
-    env_file: .env
+    environment:
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_DB=${MYSQL_DB}
+      - REDIS_URL=${REDIS_URL}
+      - CACHE_TYPE=${CACHE_TYPE}
+      - CACHE_DEFAULT_TIMEOUT=${CACHE_DEFAULT_TIMEOUT}
     depends_on:
       - redis
       - db
@@ -34,7 +42,14 @@ services:
     command: sh -c "./wait-for-it.sh db:3306 -t 20 -- python manage.py run -h 0.0.0.0"
     volumes:
       - ./write_service:/usr/src/app
-    env_file: .env
+    environment:
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_DB=${MYSQL_DB}
+      - REDIS_URL=${REDIS_URL}
+      - REDIS_QUEUES=${REDIS_QUEUES}
     depends_on:
       - redis
       - db
@@ -44,7 +59,14 @@ services:
     command: sh -c "./wait-for-it.sh db:3306 -t 20 -- python manage.py run_worker"
     volumes:
       - ./write_service:/usr/src/app
-    env_file: .env
+    environment:
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_DB=${MYSQL_DB}
+      - REDIS_URL=${REDIS_URL}
+      - REDIS_QUEUES=${REDIS_QUEUES}
     depends_on:
       - redis
       - db
