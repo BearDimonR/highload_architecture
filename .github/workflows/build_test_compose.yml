@@ -21,7 +21,7 @@ jobs:
       run: cd tests && npm i
 
     - name: Run tests
-      run: npm mocha
+      run: npm run test
 
     - name: Stop containers
       if: always()
