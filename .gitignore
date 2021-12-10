@@ -133,3 +133,7 @@ dmypy.json
 
 # ide files
 *.idea
+
+# node
+*/node_modules
+package-lock.json

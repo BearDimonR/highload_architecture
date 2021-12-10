@@ -1,0 +1,28 @@
+name: Build_and_test_compose
+
+on:
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  docker:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Repository Checkout
+      uses: actions/checkout@v1
+
+    - name: Start containers
+      run: docker-compose -f "docker-compose.yml" up -d --build
+
+    - name: Install tests dependencies
+      run: cd tests && npm i
+
+    - name: Run tests
+      run: npm mocha
+
+    - name: Stop containers
+      if: always()
+      run: docker-compose -f "docker-compose.yml" down
