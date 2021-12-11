@@ -5,6 +5,16 @@ on:
     branches:
     - main
 
+env:
+  NGINX_HOST: http://localhost:4000
+  MYSQL_USER: ${{ secrets.MYSQL_USER }}
+  MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD}}
+  MYSQL_HOST: ${{ secrets.MYSQL_HOST}}
+  MYSQL_PORT: ${{ secrets.MYSQL_PORT}}
+  MYSQL_DB: ${{ secrets.MYSQL_DB}}
+  REDIS_URL: ${{ secrets.REDIS_URL}}
+  REDIS_QUEUES: ${{ secrets.REDIS_QUEUES}}
+
 jobs:
   docker:
     timeout-minutes: 10
@@ -13,6 +23,12 @@ jobs:
     steps:
     - name: Repository Checkout
       uses: actions/checkout@v1
+      
+    - name: Create .env
+      uses: CallePuzzle/envvar-to-dotenv-action@v1.0.0
+      with:
+        variableNamesByFilter: ^.*
+      
 
     - name: Start containers
       run: docker-compose -f "docker-compose.yml" up -d --build
@@ -29,16 +45,14 @@ jobs:
     - name: Wait For Response
       uses: nev7n/wait_for_response@v1.0.1
       with:
-        url: http://localhost:4000
+        url: $NGINX_HOST
         responseCode: 404
         timeout: 25000
         interval: 5000
 
     - name: Run tests
-      run: HOST=${NGINX_HOST} npm run test
+      run: HOST=$NGINX_HOST npm run test
       working-directory: ./tests
-      env:
-        NGINX_HOST: http://localhost:4000
 
     - name: Stop containers
       if: always()
