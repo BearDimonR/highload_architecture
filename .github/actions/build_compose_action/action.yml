@@ -5,3 +5,4 @@ runs:
   steps:
     - name: Build containers
       run: docker-compose -f "docker-compose.yml" build
+      shell: bash

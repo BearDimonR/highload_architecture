@@ -28,3 +28,4 @@ runs:
     - name: Run tests
       run: HOST=${{ inputs.HOST}} npm run test
       working-directory: ./tests
+      shell: bash
