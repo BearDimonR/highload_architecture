@@ -27,8 +27,10 @@ jobs:
       working-directory: ./tests
 
     - name: Run tests
-      run: npm run test
+      run: HOST=${NGINX_HOST} npm run test
       working-directory: ./tests
+      env:
+        NGINX_HOST: nginx
 
     - name: Stop containers
       if: always()

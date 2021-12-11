@@ -1,7 +1,7 @@
 const request = require("request");
 const chai = require("chai");
 const expect = chai.expect;
-const urlBase = "https://127.0.0.0:4000";
+const urlBase = process.env.HOST;
 
 
 const parseBody = (body) => {
