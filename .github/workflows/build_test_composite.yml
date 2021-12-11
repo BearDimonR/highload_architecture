@@ -9,7 +9,7 @@ jobs:
     environment: compose
     env:
       NGINX_HOST: http://localhost:4000
-      MYSQL_USER: ${{ secrets.MYSQL_USER }}
+      MYSQL_USER: librarian
       MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
       MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
       MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
