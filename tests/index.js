@@ -38,7 +38,7 @@ describe("Book POST ", function () {
             url: `${urlBase}/write/add`,
             formData: createData,
     }, (error, response, body) => {
-        console.log(error);
+            expect(error).to.equal(null);
             expect(response.statusCode).to.equal(200);
 
             const obj = parseBody(body);
@@ -56,6 +56,7 @@ describe("Book POST ", function () {
 
     it ("Should return Queue status", function () {
         request.get(`${urlBase}/write/check_status/${taskId}`, (error, response, body) => {
+            expect(error).to.equal(null);
             expect(response.statusCode).to.equal(200);
 
             const obj = parseBody(body);
@@ -72,6 +73,7 @@ describe("Book POST ", function () {
 describe("Book GET ", function () {
     it ("Should return all Books", function () {
         request.get(`${urlBase}/get`, (error, response, body) => {
+            expect(error).to.equal(null);
             expect(response.statusCode).to.equal(200);
 
             const obj = parseBody(body);
@@ -89,6 +91,7 @@ describe("Book GET ", function () {
     it ("Should return book by id", function () {
         const startTime = process.hrtime();
         request.get(`${urlBase}/get/${uuid}`, (error, response, body) => {
+            expect(error).to.equal(null);
             const timeDifference = process.hrtime(startTime);
             time = timeDifference[0] * 1e9 + timeDifference[1];
             expect(response.statusCode).to.equal(200);
@@ -107,6 +110,8 @@ describe("Book GET ", function () {
         request.get(`${urlBase}/get/${uuid}`, (error, response, body) => {
             const timeDifference = process.hrtime(startTime);
             const diff = time - (timeDifference[0] * 1e9 + timeDifference[1]);
+
+            expect(error).to.equal(null);
             expect(response.statusCode).to.equal(200);
             expect(diff).to.be.greaterThanOrEqual(0);
 
@@ -128,6 +133,7 @@ describe("Book  PATCH ", function () {
             url: `${urlBase}/write/edit`,
             formData: editData,
         }, (error, response, body) => {
+            expect(error).to.equal(null);
             expect(response.statusCode).to.equal(200);
 
             const obj = parseBody(body);
@@ -144,6 +150,7 @@ describe("Book  PATCH ", function () {
 
     it ("Should return Queue status", function () {
         request.get(`${urlBase}/write/check_status/${taskId}`, (error, response, body) => {
+            expect(error).to.equal(null);
             expect(response.statusCode).to.equal(200);
 
             const obj = parseBody(body);
