@@ -14,6 +14,8 @@ env:
   MYSQL_DB: ${{ secrets.MYSQL_DB}}
   REDIS_URL: ${{ secrets.REDIS_URL}}
   REDIS_QUEUES: ${{ secrets.REDIS_QUEUES}}
+  CACHE_TYPE: ${{ secrets.CACHE_TYPE}}
+  CACHE_TIMEOUT: ${{ secrets.CACHE_TIMEOUT}}
 
 jobs:
   docker:
