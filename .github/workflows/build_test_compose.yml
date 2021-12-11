@@ -47,13 +47,13 @@ jobs:
     - name: Wait For Response
       uses: nev7n/wait_for_response@v1.0.1
       with:
-        url: $NGINX_HOST
+        url: ${{ env.NGINX_HOST}}
         responseCode: 404
         timeout: 25000
         interval: 5000
 
     - name: Run tests
-      run: HOST=$NGINX_HOST npm run test
+      run: HOST=${{ env.NGINX_HOST}} npm run test
       working-directory: ./tests
 
     - name: Stop containers
