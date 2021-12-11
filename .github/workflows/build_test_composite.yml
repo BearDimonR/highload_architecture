@@ -32,13 +32,13 @@ jobs:
         variableNamesByFilter: ^.*
 
     - name: Build containers
-      uses: actions/build_compose_action@v1
+      uses: actions/highload_architecture/.github/build_compose_action@v1
       
     - name: Start containers
       run: docker-compose -f "docker-compose.yml" up
     
     - name: Test API
-      run: actions/test_compose_action@v1
+      run: actions/highload_architecture/.github/test_compose_action@v1
 
     - name: Stop containers
       if: always()
