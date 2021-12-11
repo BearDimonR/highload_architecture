@@ -1,0 +1,30 @@
+name: 'Test'
+description: 'Greet someone'
+inputs:
+  HOST:
+    description: 'Host to call'
+    default: 'http://localhost:4000'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Install node v14.x
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14.x
+        
+    - name: Install tests dependencies
+      run: npm i
+      working-directory: ./tests
+        
+    - name: Wait For Response
+      uses: nev7n/wait_for_response@v1.0.1
+      with:
+        url: ${{ inputs.HOST}}
+        responseCode: 404
+        timeout: 25000
+        interval: 5000
+
+    - name: Run tests
+      run: HOST=${{ inputs.HOST}} npm run test
+      working-directory: ./tests
