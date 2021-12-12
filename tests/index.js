@@ -58,7 +58,7 @@ describe("Book GET ", function () {
         expect(response?.status).to.equal(200);
 
         const obj = response.data;
-        uuid = obj[0].id;
+        uuid = obj[0]?.id;
 
         expect(obj).be.a('array');
         expect(obj).to.have.length.above(1);
