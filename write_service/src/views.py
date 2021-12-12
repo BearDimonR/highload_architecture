@@ -14,7 +14,7 @@ controller = Blueprint("views", __name__,)
 def add():
     with Connection(redis.from_url(config.REDIS_URL)):
         q = Queue()
-        task = q.enqueue(create_task, request.get_json())
+        task = q.enqueue(create_task, request.get_json(force=True))
     response_object = {
         "status": "success",
         "data": {
@@ -26,7 +26,7 @@ def add():
 
 @controller.route('/edit/<book_id>', methods=['PATCH'])
 def edit(book_id):
-    data = request.get_json()
+    data = request.get_json(force=True)
     data['obj_id'] = book_id
     with Connection(redis.from_url(config.REDIS_URL)):
         q = Queue()
