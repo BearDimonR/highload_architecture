@@ -9,6 +9,8 @@ port = os.environ['MYSQL_PORT']
 
 DATABASE_CONNECTION_URI = f'mysql+pymysql://{user}:{password}@{host}:{port}/{database}'
 
+print('------- ' + DATABASE_CONNECTION_URI + ' -----------')
+
 # REDIS CACHE
 WTF_CSRF_ENABLED = True
 REDIS_URL = os.environ['REDIS_URL']

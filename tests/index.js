@@ -1,16 +1,7 @@
-const request = require("request");
+const axios = require('axios')
 const chai = require("chai");
 const expect = chai.expect;
 const urlBase = process.env.HOST;
-
-
-const parseBody = (body) => {
-    try {
-        return JSON.parse(body);
-    } catch (e) {
-        return {};
-    }
-}
 
 const createData = {
     isbn: "exampleISBN",
@@ -33,126 +24,106 @@ let time = 0;
 describe("Book POST ", function () {
     let taskId = '';
 
-    it("Should create Book", function () {
-        request.post({
-            url: `${urlBase}/write/add`,
-            formData: createData,
-    }, (error, response, body) => {
-            expect(response?.statusCode).to.equal(200);
+    it("Should create Book", async function () {
+        const response = await axios.post(`${urlBase}/write/add`, createData);
+        expect(response?.status).to.equal(202);
+        
+        const obj = response.data;
+        
+        expect(obj).be.a('object');
+        expect(obj).to.have.keys(['data', 'status']);
+        expect(obj).to.have.property('status', 'success');
+        expect(obj.data).to.have.property('taskId');
 
-            const obj = parseBody(body);
-            
-            expect(obj).be.a('object');
-            expect(obj).to.have.property('status', 'success');
-            expect(obj).to.have.key('data');
-            expect(obj.data).to.have.property('taskId');
-
-            taskId = obj.data.taskId;
-
-            done();
-        });
+        taskId = obj.data.taskId;
     });
 
-    it ("Should return Queue status", function () {
-        request.get(`${urlBase}/write/check_status/${taskId}`, (error, response, body) => {
-            expect(response?.statusCode).to.equal(200);
+    it ("Should return Queue status", async function () {
+        this.retries(3);
+        const response = await axios.get(`${urlBase}/write/check_status/${taskId}`);
+        expect(response?.status).to.equal(200);
 
-            const obj = parseBody(body);
+        const obj = response.data;
             
-            expect(obj).be.a('object');
-            expect(obj).to.have.property('job_status', 'finished');
-            expect(obj).to.have.property('job_id', taskId);
-
-            done();
-        });
+        expect(obj).be.a('object');
+        expect(obj).to.have.key(['job_status', 'job_id']);
+        expect(obj).to.have.property('job_status', 'finished');
+        expect(obj).to.have.property('job_id', taskId);
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 5000));
     });
 })
 
 describe("Book GET ", function () {
-    it ("Should return all Books", function () {
-        request.get(`${urlBase}/get`, (error, response, body) => {
-            expect(response?.statusCode).to.equal(200);
+    it("Should return all books", async function() {
+        this.retries(3);
+        const response = await axios.get(`${urlBase}/get`);
+        expect(response?.status).to.equal(200);
 
-            const obj = parseBody(body);
+        const obj = response.data;
+        uuid = obj[0]?.id;
 
-            expect(obj).be.a('array');
-            expect(obj).to.have.length(1);
-            expect(obj[0]).to.have.all.keys(['book_title', 'category_name', 'date_of_publication', 'copies', 'price', 'isbn', 'id']);
-
-            uuid = ojb[0].id;
-
-            done();
-        });
+        expect(obj).be.a('array');
+        expect(uuid).to.not.be.undefined;
+        expect(obj[0]).to.have.all.keys(['book_title', 'category_name', 'date_of_publication', 'copies', 'price', 'isbn', 'id']);
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 6000));
     });
 
-    it ("Should return book by id", function () {
+    it ("Should return book by id", async function () {
         const startTime = process.hrtime();
-        request.get(`${urlBase}/get/${uuid}`, (error, response, body) => {
-            const timeDifference = process.hrtime(startTime);
-            time = timeDifference[0] * 1e9 + timeDifference[1];
-            expect(response?.statusCode).to.equal(200);
+        const response = await axios.get(`${urlBase}/get/${uuid}`);
+        const timeDifference = process.hrtime(startTime);
+        time = timeDifference[0] * 1e9 + timeDifference[1];
+        expect(response?.status).to.equal(200);
 
-            const obj = parseBody(body);
-
-            expect(obj).be.a('object');
-            expect(obj[0]).to.have.all.keys(['book_title', 'category_name', 'date_of_publication', 'copies', 'price', 'isbn', 'id']);
-
-            done();
-        });
+        const obj = response.data;
+        expect(obj).be.a('object');
+        expect(obj).to.have.all.keys(['book_title', 'category_name', 'date_of_publication', 'copies', 'price', 'isbn', 'id']);
     });
 
-    it ("Should cache returned value", function () {
+    it ("Should cache returned value", async function () {
+        this.retries(3);
         const startTime = process.hrtime();
-        request.get(`${urlBase}/get/${uuid}`, (error, response, body) => {
-            const timeDifference = process.hrtime(startTime);
-            const diff = time - (timeDifference[0] * 1e9 + timeDifference[1]);
+        const response = await axios.get(`${urlBase}/get/${uuid}`);
+        const timeDifference = process.hrtime(startTime);
+        const diff = time - (timeDifference[0] * 1e9 + timeDifference[1]);
 
-            expect(response?.statusCode).to.equal(200);
-            expect(diff).to.be.greaterThanOrEqual(0);
+        expect(response?.status).to.equal(200);
+        expect(diff).to.be.greaterThanOrEqual(0);
 
-            const obj = parseBody(body);
-
-            expect(obj).be.a('object');
-            expect(obj[0]).to.have.all.keys(['book_title', 'category_name', 'date_of_publication', 'copies', 'price', 'isbn', 'id']);
-
-            done();
-        });
+        const obj = response.data;
+        expect(obj).be.a('object');
+        expect(obj).to.have.all.keys(['book_title', 'category_name', 'date_of_publication', 'copies', 'price', 'isbn', 'id']);
     });
 })
 
 describe("Book  PATCH ", function () {
     let taskId = '';
 
-    it ("Should edit Book", function () {
-        request.post({
-            url: `${urlBase}/write/edit`,
-            formData: editData,
-        }, (error, response, body) => {
-            expect(response?.statusCode).to.equal(200);
+    it("Should edit Book", async function () {
+        const response = await axios.patch(`${urlBase}/write/edit/${uuid}`, editData);
+        expect(response?.status).to.equal(202);
+        
+        const obj = response.data;
+        
+        expect(obj).be.a('object');
+        expect(obj).to.have.keys(['data', 'status']);
+        expect(obj).to.have.property('status', 'success');
+        expect(obj.data).to.have.property('taskId');
 
-            const obj = parseBody(body);
-            
-            expect(obj).to.have.property('status', 'success');
-            expect(obj).to.have.property('data');
-            expect(obj.data).to.have.property('taskId');
-
-            taskId = obj.data.taskId;
-
-            done();
-        });
+        taskId = obj.data.taskId;
     });
 
-    it ("Should return Queue status", function () {
-        request.get(`${urlBase}/write/check_status/${taskId}`, (error, response, body) => {
-            expect(response?.statusCode).to.equal(200);
+    it ("Should return Queue status", async function () {
+        this.retries(10);
+        const response = await axios.get(`${urlBase}/write/check_status/${taskId}`);
+        expect(response?.status).to.equal(200);
 
-            const obj = parseBody(body);
+        const obj = response.data;
             
-            expect(obj).be.a('object');
-            expect(obj).to.have.property('job_status', 'finished');
-            expect(obj).to.have.property('job_id', taskId);
-
-            done();
-        });
+        expect(obj).be.a('object');
+        expect(obj).to.have.key(['job_status', 'job_id']);
+        expect(obj).to.have.property('job_status', 'finished');
+        expect(obj).to.have.property('job_id', taskId);
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 5000));
     });
 })

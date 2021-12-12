@@ -16,3 +16,6 @@ class Book(db.Model):
     date_of_publication = db.Column(db.DATE)
     price = db.Column(db.FLOAT)
     copies = db.Column(db.SMALLINT)
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}

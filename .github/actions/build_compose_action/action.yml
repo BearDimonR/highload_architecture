@@ -1,0 +1,8 @@
+name: 'Build'
+description: 'Greet someone'
+runs:
+  using: 'composite'
+  steps:
+    - name: Build containers
+      run: docker-compose -f "docker-compose.yml" build
+      shell: bash
