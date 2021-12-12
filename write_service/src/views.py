@@ -1,6 +1,7 @@
 import redis
 from flask import request, Blueprint, jsonify
 from rq import Connection, Queue
+from rq.exceptions import NoSuchJobError
 from rq.job import Job
 
 from src import config
@@ -42,7 +43,10 @@ def edit(book_id):
 @controller.route("/check_status/<job_id>", methods=['GET'])
 def check_status(job_id):
     with Connection(redis.from_url(config.REDIS_URL)):
-        job = Job.fetch(job_id)
+        try:
+            job = Job.fetch(job_id)
+        except NoSuchJobError:
+            job = None
     if not job:
         return 'No such job', 204
     return jsonify({"job_id": job.id, "job_status": job.get_status()})
