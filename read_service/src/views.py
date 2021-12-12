@@ -18,8 +18,7 @@ def get_all():
 @controller.route('/get/<book_id>', methods=['GET'])
 @cache.cached(timeout=10, query_string=True)
 def get(book_id):
-    print('---- id ----')
     result = get_instance(Book, book_id)
     if result is None:
-        return '', 404
+        return '', 204
     return jsonify(result.as_dict()), 200
