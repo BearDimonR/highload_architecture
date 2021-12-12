@@ -67,10 +67,6 @@ describe("Book GET ", function () {
         expect(obj[0]).to.have.all.keys(['book_title', 'category_name', 'date_of_publication', 'copies', 'price', 'isbn', 'id']);
     })
     uuid = inner;
-})
-
-describe("Book  PATCH ", function () {
-    let taskId = '';
 
     it ("Should return book by id", async function () {
         const startTime = process.hrtime();
@@ -98,6 +94,10 @@ describe("Book  PATCH ", function () {
         expect(obj).be.a('object');
         expect(obj).to.have.all.keys(['book_title', 'category_name', 'date_of_publication', 'copies', 'price', 'isbn', 'id']);
     });
+})
+
+describe("Book  PATCH ", function () {
+    let taskId = '';
 
     it("Should edit Book", async function () {
         const response = await axios.patch(`${urlBase}/write/edit/${uuid}`, editData);
@@ -114,7 +114,7 @@ describe("Book  PATCH ", function () {
     });
 
     it ("Should return Queue status", async function () {
-        this.retries(5);
+        this.retries(10);
         const response = await axios.get(`${urlBase}/write/check_status/${taskId}`);
         expect(response?.status).to.equal(200);
 
