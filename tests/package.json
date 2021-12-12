@@ -4,7 +4,7 @@
   "description": "Simple node application for API testing",
   "main": "index.js",
   "scripts": {
-    "test": "mocha index.js --timeout 10000 --exit"
+    "test": "mocha index.js --timeout 30000 --exit"
   },
   "author": "Dmytro Miedviediev",
   "license": "MIT",

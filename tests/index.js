@@ -49,27 +49,27 @@ describe("Book POST ", function (done) {
         expect(obj).to.have.key(['job_status', 'job_id']);
         expect(obj).to.have.property('job_status', 'finished');
         expect(obj).to.have.property('job_id', taskId);
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 5000));
     });
 })
 
 describe("Book GET ", function () {
-    this.retries(3);
+    let inner;
     it("Should return all books", async function() {
         const response = await axios.get(`${urlBase}/get`);
         expect(response?.status).to.equal(200);
 
         const obj = response.data;
-        uuid = obj[0]?.id;
+        inner = obj[0]?.id;
 
         expect(obj).be.a('array');
-        expect(uuid).to.not.be.undefined;
+        expect(inner).to.not.be.undefined;
         expect(obj[0]).to.have.all.keys(['book_title', 'category_name', 'date_of_publication', 'copies', 'price', 'isbn', 'id']);
     })
 
     it ("Should return book by id", async function () {
         const startTime = process.hrtime();
-        const response = await axios.get(`${urlBase}/get/${uuid}`);
+        const response = await axios.get(`${urlBase}/get/${inner}`);
         const timeDifference = process.hrtime(startTime);
         time = timeDifference[0] * 1e9 + timeDifference[1];
         expect(response?.status).to.equal(200);
@@ -82,7 +82,7 @@ describe("Book GET ", function () {
     it ("Should cache returned value", async function () {
         this.retries(3);
         const startTime = process.hrtime();
-        const response = await axios.get(`${urlBase}/get/${uuid}`);
+        const response = await axios.get(`${urlBase}/get/${inner}`);
         const timeDifference = process.hrtime(startTime);
         const diff = time - (timeDifference[0] * 1e9 + timeDifference[1]);
 
@@ -93,6 +93,7 @@ describe("Book GET ", function () {
         expect(obj).be.a('object');
         expect(obj).to.have.all.keys(['book_title', 'category_name', 'date_of_publication', 'copies', 'price', 'isbn', 'id']);
     });
+    uuid = inner;
 })
 
 describe("Book  PATCH ", function () {
@@ -123,6 +124,6 @@ describe("Book  PATCH ", function () {
         expect(obj).to.have.key(['job_status', 'job_id']);
         expect(obj).to.have.property('job_status', 'finished');
         expect(obj).to.have.property('job_id', taskId);
-        await new Promise((resolve, reject) => setTimeout(() => resolve(), 2000));
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 5000));
     });
 })
