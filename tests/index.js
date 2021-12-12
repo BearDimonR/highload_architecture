@@ -55,6 +55,7 @@ describe("Book POST ", function () {
 
 describe("Book GET ", function () {
     it("Should return all books", async function() {
+        this.retries(3);
         const response = await axios.get(`${urlBase}/get`);
         expect(response?.status).to.equal(200);
 
@@ -64,6 +65,7 @@ describe("Book GET ", function () {
         expect(obj).be.a('array');
         expect(uuid).to.not.be.undefined;
         expect(obj[0]).to.have.all.keys(['book_title', 'category_name', 'date_of_publication', 'copies', 'price', 'isbn', 'id']);
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 6000));
     });
 
     it ("Should return book by id", async function () {
