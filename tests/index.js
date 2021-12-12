@@ -38,7 +38,7 @@ describe("Book POST ", function () {
             url: `${urlBase}/write/add`,
             formData: createData,
     }, (error, response, body) => {
-            expect(response?.statusCode).to.equal(200);
+            expect(response?.statusCode).to.equal(202);
 
             const obj = parseBody(body);
             
@@ -128,7 +128,7 @@ describe("Book  PATCH ", function () {
             url: `${urlBase}/write/edit`,
             formData: editData,
         }, (error, response, body) => {
-            expect(response?.statusCode).to.equal(200);
+            expect(response?.statusCode).to.equal(202);
 
             const obj = parseBody(body);
             
