@@ -21,7 +21,7 @@ const editData = {
 let uuid = '';
 let time = 0;
 
-describe("Book POST ", function (done) {
+describe("Book POST ", function () {
     let taskId = '';
 
     it("Should create Book", async function () {
