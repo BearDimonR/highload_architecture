@@ -61,7 +61,7 @@ describe("Book GET ", function () {
         uuid = obj[0]?.id;
 
         expect(obj).be.a('array');
-        expect(obj).to.have.length.above(0);
+        expect(uuid).to.not.be.undefined;
         expect(obj[0]).to.have.all.keys(['book_title', 'category_name', 'date_of_publication', 'copies', 'price', 'isbn', 'id']);
     })
 
