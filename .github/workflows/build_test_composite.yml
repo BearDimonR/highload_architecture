@@ -37,7 +37,8 @@ jobs:
       run: docker-compose -f "docker-compose.yml" up -d
     
     - name: Test API
-      run: BearDimonR/highload_architecture/.github/actions/test_compose_action@v4
+      uses: BearDimonR/highload_architecture/.github/actions/test_compose_action@v4
+
 
     - name: Stop containers
       if: always()
