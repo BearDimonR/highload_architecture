@@ -38,7 +38,7 @@ describe("Book POST ", function (done) {
         taskId = obj.data.taskId;
     });
 
-    it ("Should return Queue status", async function (done) {
+    it ("Should return Queue status", async function () {
         this.retries(3);
         const response = await axios.get(`${urlBase}/write/check_status/${taskId}`);
         expect(response?.status).to.equal(200);
@@ -49,7 +49,7 @@ describe("Book POST ", function (done) {
         expect(obj).to.have.key(['job_status', 'job_id']);
         expect(obj).to.have.property('job_status', 'finished');
         expect(obj).to.have.property('job_id', taskId);
-        setTimeout(done, 3000);
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
     });
 })
 
@@ -113,6 +113,7 @@ describe("Book  PATCH ", function () {
     });
 
     it ("Should return Queue status", async function () {
+        this.retries(5);
         const response = await axios.get(`${urlBase}/write/check_status/${taskId}`);
         expect(response?.status).to.equal(200);
 
@@ -120,6 +121,8 @@ describe("Book  PATCH ", function () {
             
         expect(obj).be.a('object');
         expect(obj).to.have.key(['job_status', 'job_id']);
+        expect(obj).to.have.property('job_status', 'finished');
         expect(obj).to.have.property('job_id', taskId);
+        await new Promise((resolve, reject) => setTimeout(() => resolve(), 2000));
     });
 })
