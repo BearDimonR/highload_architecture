@@ -40,6 +40,7 @@ jobs:
       uses: BearDimonR/highload_architecture/.github/actions/test_compose_action@v6
 
     - name: Logs
+      if: always()
       run: docker-compose logs
 
     - name: Stop containers
