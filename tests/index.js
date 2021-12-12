@@ -21,7 +21,7 @@ const editData = {
 let uuid = '';
 let time = 0;
 
-describe("Book POST ", function () {
+describe("Book POST ", function (done) {
     let taskId = '';
 
     it("Should create Book", async function () {
@@ -38,7 +38,8 @@ describe("Book POST ", function () {
         taskId = obj.data.taskId;
     });
 
-    it ("Should return Queue status", async function () {
+    it ("Should return Queue status", async function (done) {
+        this.retries(3);
         const response = await axios.get(`${urlBase}/write/check_status/${taskId}`);
         expect(response?.status).to.equal(200);
 
@@ -46,7 +47,9 @@ describe("Book POST ", function () {
             
         expect(obj).be.a('object');
         expect(obj).to.have.key(['job_status', 'job_id']);
+        expect(obj).to.have.property('job_status', 'finished');
         expect(obj).to.have.property('job_id', taskId);
+        setTimeout(done, 3000);
     });
 })
 
