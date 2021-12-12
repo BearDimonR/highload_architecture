@@ -9,15 +9,15 @@ jobs:
     environment: compose
     env:
       NGINX_HOST: http://localhost:4000
-      MYSQL_USER: ${{ secrets.MYSQL_USER }}
-      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-      MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
-      MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
-      MYSQL_DB: ${{ secrets.MYSQL_DB }}
-      REDIS_URL: ${{ secrets.REDIS_URL }}
-      REDIS_QUEUES: ${{ secrets.REDIS_QUEUES }}
-      CACHE_TYPE: ${{ secrets.CACHE_TYPE }}
-      CACHE_TIMEOUT: ${{ secrets.CACHE_TIMEOUT }}
+      MYSQL_USER: librarian
+      MYSQL_PASSWORD: pass
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_DB: library
+      REDIS_URL: redis://redis:6379/0
+      REDIS_QUEUES: default
+      CACHE_TYPE: redis
+      CACHE_DEFAULT_TIMEOUT: 500
     timeout-minutes: 5
     runs-on: ubuntu-latest
 
@@ -34,7 +34,7 @@ jobs:
       uses: BearDimonR/highload_architecture/.github/actions/build_compose_action@v3
       
     - name: Start containers
-      run: docker-compose -f "docker-compose.yml" up
+      run: docker-compose -f "docker-compose.yml" up -d
     
     - name: Test API
       run: BearDimonR/highload_architecture/.github/actions/test_compose_action@v3
