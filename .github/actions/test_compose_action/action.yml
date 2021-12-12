@@ -17,7 +17,7 @@ runs:
       run: npm i
       working-directory: ./tests
       shell: bash
-        
+
     - name: Wait For Response
       uses: nev7n/wait_for_response@v1.0.1
       with:
