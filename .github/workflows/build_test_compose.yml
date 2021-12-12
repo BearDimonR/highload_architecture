@@ -46,8 +46,8 @@ jobs:
     - name: Wait For Response
       uses: nev7n/wait_for_response@v1.0.1
       with:
-        url: ${{ env.NGINX_HOST}}
-        responseCode: 404
+        url: ${{ env.NGINX_HOST}}/get
+        responseCode: 200
         timeout: 25000
         interval: 5000
 
