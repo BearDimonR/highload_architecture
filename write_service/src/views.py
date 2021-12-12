@@ -51,5 +51,6 @@ def check_status(job_id):
             job = None
     if not job:
         return 'No such job', 204
-    print(jsonify(Book.query.all().as_dict()))
+    result = list(map(lambda val: val.as_dict(), get_all_instances(Book)))
+    print(result)
     return jsonify({"job_id": job.id, "job_status": job.get_status()})
