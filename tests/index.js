@@ -54,27 +54,22 @@ describe("Book POST ", function (done) {
 })
 
 describe("Book GET ", function () {
-    let inner;
     it("Should return all books", async function() {
         const response = await axios.get(`${urlBase}/get`);
         expect(response?.status).to.equal(200);
 
         const obj = response.data;
-        inner = obj[0]?.id;
+        this.inner = obj[0]?.id;
+        uuid = this.inner;
 
         expect(obj).be.a('array');
-        expect(inner).to.not.be.undefined;
+        expect(this.inner).to.not.be.undefined;
         expect(obj[0]).to.have.all.keys(['book_title', 'category_name', 'date_of_publication', 'copies', 'price', 'isbn', 'id']);
-        uuid = inner;
-    })
-})
+    });
 
-describe("Book  PATCH ", function () {
-    let taskId = '';
-
-        it ("Should return book by id", async function () {
+    it ("Should return book by id", async function () {
         const startTime = process.hrtime();
-        const response = await axios.get(`${urlBase}/get/${uuid}`);
+        const response = await axios.get(`${urlBase}/get/${this.inner}`);
         const timeDifference = process.hrtime(startTime);
         time = timeDifference[0] * 1e9 + timeDifference[1];
         expect(response?.status).to.equal(200);
@@ -87,7 +82,7 @@ describe("Book  PATCH ", function () {
     it ("Should cache returned value", async function () {
         this.retries(3);
         const startTime = process.hrtime();
-        const response = await axios.get(`${urlBase}/get/${uuid}`);
+        const response = await axios.get(`${urlBase}/get/${this.inner}`);
         const timeDifference = process.hrtime(startTime);
         const diff = time - (timeDifference[0] * 1e9 + timeDifference[1]);
 
@@ -98,6 +93,10 @@ describe("Book  PATCH ", function () {
         expect(obj).be.a('object');
         expect(obj).to.have.all.keys(['book_title', 'category_name', 'date_of_publication', 'copies', 'price', 'isbn', 'id']);
     });
+})
+
+describe("Book  PATCH ", function () {
+    let taskId = '';
 
     it("Should edit Book", async function () {
         const response = await axios.patch(`${urlBase}/write/edit/${uuid}`, editData);
