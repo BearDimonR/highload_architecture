@@ -59,17 +59,16 @@ describe("Book GET ", function () {
         expect(response?.status).to.equal(200);
 
         const obj = response.data;
-        this.inner = obj[0]?.id;
-        uuid = this.inner;
+        uuid = obj[0]?.id;
 
         expect(obj).be.a('array');
-        expect(this.inner).to.not.be.undefined;
+        expect(uuid).to.not.be.undefined;
         expect(obj[0]).to.have.all.keys(['book_title', 'category_name', 'date_of_publication', 'copies', 'price', 'isbn', 'id']);
     });
 
     it ("Should return book by id", async function () {
         const startTime = process.hrtime();
-        const response = await axios.get(`${urlBase}/get/${this.inner}`);
+        const response = await axios.get(`${urlBase}/get/${uuid}`);
         const timeDifference = process.hrtime(startTime);
         time = timeDifference[0] * 1e9 + timeDifference[1];
         expect(response?.status).to.equal(200);
@@ -82,7 +81,7 @@ describe("Book GET ", function () {
     it ("Should cache returned value", async function () {
         this.retries(3);
         const startTime = process.hrtime();
-        const response = await axios.get(`${urlBase}/get/${this.inner}`);
+        const response = await axios.get(`${urlBase}/get/${uuid}`);
         const timeDifference = process.hrtime(startTime);
         const diff = time - (timeDifference[0] * 1e9 + timeDifference[1]);
 

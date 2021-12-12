@@ -39,6 +39,8 @@ jobs:
     - name: Test API
       uses: BearDimonR/highload_architecture/.github/actions/test_compose_action@v6
 
+    - name: Logs
+      run: docker-compose logs
 
     - name: Stop containers
       if: always()
