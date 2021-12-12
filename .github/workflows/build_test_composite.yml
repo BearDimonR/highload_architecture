@@ -17,7 +17,7 @@ jobs:
       REDIS_URL: redis://redis:6379/0
       REDIS_QUEUES: default
       CACHE_TYPE: redis
-      CACHE_TIMEOUT: 500
+      CACHE_DEFAULT_TIMEOUT: 500
     timeout-minutes: 5
     runs-on: ubuntu-latest
 
@@ -34,7 +34,7 @@ jobs:
       uses: BearDimonR/highload_architecture/.github/actions/build_compose_action@v3
       
     - name: Start containers
-      run: docker-compose -f "docker-compose.yml" up
+      run: docker-compose -f "docker-compose.yml" up -d
     
     - name: Test API
       run: BearDimonR/highload_architecture/.github/actions/test_compose_action@v3
