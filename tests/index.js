@@ -51,8 +51,8 @@ describe("Book POST ", function () {
 })
 
 describe("Book GET ", function () {
+    this.retries(3);
     it("Should return all books", async function() {
-        this.retries(3);
         const response = await axios.get(`${urlBase}/get`);
         expect(response?.status).to.equal(200);
 
