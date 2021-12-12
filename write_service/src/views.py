@@ -5,6 +5,8 @@ from rq.exceptions import NoSuchJobError
 from rq.job import Job
 
 from src.models import Book
+import sys
+
 
 from src import config
 from src.tasks import create_task, edit_task
@@ -52,5 +54,5 @@ def check_status(job_id):
     if not job:
         return 'No such job', 204
     result = list(map(lambda val: val.as_dict(), Book.query.all()))
-    print(result)
+    print(result, file=sys.stderr)
     return jsonify({"job_id": job.id, "job_status": job.get_status()})
