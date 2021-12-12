@@ -1,4 +1,4 @@
-name: Build_and_test_compose
+name: Build_and_test_composite
 
 on:
   pull_request:
