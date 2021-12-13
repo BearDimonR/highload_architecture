@@ -19,7 +19,7 @@ if [ “$1” = “build-to-ecr” ];then
 fi
 
 if [ "$1" = "deploy" ];then
-    docker context create ecs myectcontext --from-env
+    docker context create ecs myectcontext --access-keys .env
     docker context use myectcontext
     docker compose up
     docker compose ps
