@@ -9,8 +9,6 @@ jobs:
       name: Deploy docker-compose to AWS ECS
       environment: compose
       runs-on: ubuntu-latest
-      container:
-        image: lucasalt/act_base:latest
       env:
         AWS_REGION: ap-southeast-1
         APP_NAME: "highload"
