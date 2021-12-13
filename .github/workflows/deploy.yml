@@ -22,7 +22,6 @@ jobs:
       steps:
         - name: Installing packages
           run: |
-            sudo apt-get update -y
             sudo apt-get install jq curl -y
             curl "<https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip>" -o "awscliv2.zip"
             unzip awscliv2.zip
