@@ -24,9 +24,10 @@ jobs:
             aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
             aws configure set region "$AWS_REGION"
             aws configure set output json
+        - name: ls
+          run: ls
         - name: Push to ECR
           run: |
-            ls
             chmod +x /deploy.sh
             sh ./deploy.sh build-to-ecr $AWS_REGION $APP_NAME $AWS_ECR_ADDRESS $AWS_ACCOUNT_ID $BUILD_ID
         - name: Deploy to Fargate
