@@ -18,6 +18,8 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
         BUILD_ID: ${{ github.run_number }}
       steps:
+        - name: Checkout
+          uses: actions/checkout@v2
         - name: Configure AWS credentials
           run: |
             aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
