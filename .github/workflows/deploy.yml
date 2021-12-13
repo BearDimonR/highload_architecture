@@ -1,0 +1,47 @@
+name: Deploy_compose
+
+on:
+  pull_request:
+    branches:
+    - main
+jobs:
+  simple-deploy:
+      name: Deploy docker-compose to AWS ECS
+      environment: compose
+      runs-on: ubuntu-latest
+      env:
+        AWS_REGION: ap-southeast-1
+        APP_NAME: "highload"
+        AWS_ECR_ADDRESS: ${{ secrets.AWS_ECR_ADDRESS }}
+        AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+        BUILD_ID: ${{ github.run_number }}
+      steps:
+        - name: docker
+          run: |
+            curl -L -o docker-linux-amd64.tar.gz https://github.com/docker/compose-cli/releases/download/v1.0.10/docker-linux-amd64.tar.gz
+            tar xzf docker-linux-amd64.tar.gz
+            chmod +x docker/docker
+            which docker
+            sudo ln -s $(which docker) /usr/local/bin/com.docker.cli
+            ./docker/docker --context default ps
+            sudo mv docker/docker /usr/local/bin/docker
+        - name: Checkout
+          uses: actions/checkout@v2
+        - name: Create .env
+          uses: CallePuzzle/envvar-to-dotenv-action@v1.0.0
+          with:
+            variableNamesByFilter: ^.*
+        - name: Configure AWS credentials
+          run: |
+            aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
+            aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
+            aws configure set region "$AWS_REGION"
+            aws configure set output json
+        - name: Push to ECR
+          run: |
+            sh ./deploy.sh build-to-ecr $AWS_REGION $APP_NAME $AWS_ECR_ADDRESS $AWS_ACCOUNT_ID $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY
+        - name: Deploy to Fargate
+          run: |
+            sh ./deploy.sh deploy
