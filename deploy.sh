@@ -14,8 +14,7 @@ if [ “$1” = “build-to-ecr” ];then
     # create all docker images and push all to ECR    
     echo "Building..."
     docker compose build
-    
-    docker compose push ${ECR_SERVICE_URL}
+    docker compose push
 fi
 
 if [ "$1" = "deploy" ];then
