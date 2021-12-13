@@ -61,7 +61,7 @@ jobs:
         interval: 5000
 
     - name: Run tests
-      run: HOST=${{ env.NGINX_HOST}} npm run test
+      run: HOST=$NGINX_HOST npm run test
       working-directory: ./tests
 
     - name: Stop containers
