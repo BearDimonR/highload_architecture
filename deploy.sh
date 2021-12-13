@@ -11,7 +11,7 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 
 # build images and push to ECR
 if [ “$1” = “build-to-ecr” ];then
-    CONTAINER_NAME=$(_jq '.service')
+    CONTAINER_NAME='highload'
     # create all docker images and push all to ECR
     ECR_REPOSITORY_NAME=${APP_NAME}_${CONTAINER_NAME}
     ECR_REPO_URL="${ECR_SERVICE_URL}/${ECR_REPOSITORY_NAME}"
