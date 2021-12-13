@@ -20,8 +20,6 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
         BUILD_ID: ${{ github.run_number }}
       steps:
-        - name: Install sudo package
-          run: apt update && apt install sudo
         - name: Installing packages
           run: |
             sudo apt-get update -y
