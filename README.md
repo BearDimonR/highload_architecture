@@ -4,7 +4,7 @@ Homeworks for Highload Architecture course in NaUKMA
 ### Branches
 
 1. `main` - main for CI (Lab 5)
-2. `feature-CI` -  develop CI feature
+2. `feature-lab5-splitted-actions` -  develop CI feature
 3. `feature-lab4` - for Lab 4 
 
 
