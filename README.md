@@ -6,7 +6,7 @@ Homeworks for Highload Architecture course in NaUKMA
 1. `main` - main for CI (Lab 5)
 2. `feature-lab5-splitted-actions` -  develop CI feature
 3. `feature-lab4` - for Lab 4 
-4. `deploy` - for extra deploy task
+4. `deploy` - for extra deploy task (almost done, just can't call context in github action flow)
 
 
 #### Lab 4
