@@ -24,14 +24,10 @@ jobs:
             aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
             aws configure set region "$AWS_REGION"
             aws configure set output json
-        - name: ls
-          run: ls ${{ github.workspace }}
         - name: Push to ECR
           run: |
-            cd app
-            chmod +x deploy.sh
-            sh ./deploy.sh build-to-ecr $AWS_REGION $APP_NAME $AWS_ECR_ADDRESS $AWS_ACCOUNT_ID $BUILD_ID
+            chmod +x ${{ github.workspace }}/deploy.sh
+            sh ${{ github.workspace }}/deploy.sh build-to-ecr $AWS_REGION $APP_NAME $AWS_ECR_ADDRESS $AWS_ACCOUNT_ID $BUILD_ID
         - name: Deploy to Fargate
           run: |
-            cd app
-            sh ./deploy.sh deploy
+            sh ${{ github.workspace }}/deploy.sh deploy
