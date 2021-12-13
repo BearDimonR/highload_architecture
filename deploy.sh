@@ -7,7 +7,7 @@ ECR_SERVICE_URL="${AWS_ACCOUNT_ID}.${AWS_ECR_ADDRESS}"
 VERSION_TAG="latest"
 BUILD_ID=${BUILD_ID}
 set -e # exit early if issues arise
-aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin ${ECR_SERVICE_URL}
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ECR_SERVICE_URL}
 
 # build images and push to ECR
 if [ “$1” = “build-to-ecr” ];then
