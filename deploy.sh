@@ -23,7 +23,7 @@ if [ "$1" = "deploy" ];then
     echo "AWSAccessKeyId=${AWS_ACCESS_KEY_ID}" > $file
     echo "AWSSecretKey=${AWS_SECRET_ACCESS_KEY}" > $file
     cat $file
-    docker context create ecs myectcontext --access-keys ~/usr/.aws/credentials
+    docker context create ecs myectcontext --profile default
     docker context use myectcontext
     docker compose up
     docker compose ps
