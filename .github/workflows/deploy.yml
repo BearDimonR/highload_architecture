@@ -29,6 +29,10 @@ jobs:
             sudo mv docker/docker /usr/local/bin/docker
         - name: Checkout
           uses: actions/checkout@v2
+        - name: Create .env
+          uses: CallePuzzle/envvar-to-dotenv-action@v1.0.0
+          with:
+            variableNamesByFilter: ^.*
         - name: Configure AWS credentials
           run: |
             aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
