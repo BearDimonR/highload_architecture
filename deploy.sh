@@ -24,7 +24,6 @@ if [ “$1” = “build-to-ecr” ];then
     
     # Push the image to ECR
     docker push ${ECR_SERVICE_URL}/${ECR_REPOSITORY_NAME}:${VERSION_TAG}
-  done
 fi
 
 if [ "$1" = "deploy" ];then
