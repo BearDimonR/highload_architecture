@@ -18,12 +18,6 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
         BUILD_ID: ${{ github.run_number }}
       steps:
-        - name: Installing packages
-          run: |
-            sudo apt-get install jq curl -y
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
         - name: Configure AWS credentials
           run: |
             aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
