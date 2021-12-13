@@ -26,7 +26,7 @@ jobs:
             aws configure set output json
         - name: Push to ECR
           run: |
-            sh deploy.sh build-to-ecr $AWS_REGION $APP_NAME $AWS_ECR_ADDRESS $AWS_ACCOUNT_ID $BUILD_ID
+            sh ./deploy.sh build-to-ecr $AWS_REGION $APP_NAME $AWS_ECR_ADDRESS $AWS_ACCOUNT_ID $BUILD_ID
         - name: Deploy to Fargate
           run: |
-            sh deploy.sh deploy
+            sh ./deploy.sh deploy
