@@ -25,7 +25,7 @@ jobs:
             aws configure set region "$AWS_REGION"
             aws configure set output json
         - name: ls
-          run: ls
+          run: ls ${{ github.workspace }}
         - name: Push to ECR
           run: |
             cd app
