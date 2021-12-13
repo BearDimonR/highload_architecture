@@ -11,7 +11,6 @@ set -e # exit early if issues arise
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ECR_SERVICE_URL}
 
 if [ “$1” = “build-to-ecr” ];then
-    docker context create ecs --help
     # create all docker images and push all to ECR    
     echo "Building..."
     docker compose build
