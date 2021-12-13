@@ -20,7 +20,7 @@ fi
 if [ "$1" = "deploy" ];then
     file="./keys"
     echo "AWSAccessKeyId=${AWS_ACCESS_KEY_ID}" > $file
-    echo "AWSAccessKeyId=${AWS_SECRET_ACCESS_KEY}" > $file
+    echo "AWSSecretKey=${AWS_SECRET_ACCESS_KEY}" > $file
     cat $file
     docker context create ecs myectcontext --access-keys keys
     docker context use myectcontext
