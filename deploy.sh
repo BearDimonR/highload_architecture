@@ -18,7 +18,7 @@ if [ “$1” = “build-to-ecr” ];then
 fi
 
 if [ "$1" = "deploy" ];then
-    docker context create ecs myectcontext --key =${AWS_ACCESS_KEY_ID} --secret=${AWS_SECRET_ACCESS_KEY}
+    docker context create ecs myectcontext --from-env
     docker compose up
     docker compose ps
     docker compose logs
