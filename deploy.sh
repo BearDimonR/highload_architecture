@@ -11,13 +11,7 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 
 # build images and push to ECR
 if [ “$1” = “build-to-ecr” ];then
-  echo "building the docker images..."
-  for row in $(jq -c '.[]' deploy.json); do
-    _jq() {
-      echo ${row} | jq -r ${1}
-    }
-    
-    CONTAINER_NAME=$(_jq '.containerName')
+    CONTAINER_NAME=$(_jq '.service')
     # create all docker images and push all to ECR
     ECR_REPOSITORY_NAME=${APP_NAME}_${CONTAINER_NAME}
     ECR_REPO_URL="${ECR_SERVICE_URL}/${ECR_REPOSITORY_NAME}"
